@@ -7,7 +7,7 @@ async function enviar() {
 
     const chat = document.getElementById("chat-box");
 
-    // Mostrar mensagem do usuário
+    // Mensagem do usuário
     chat.innerHTML += `<div class='msg-user'>${pergunta}</div>`;
     chat.scrollTop = chat.scrollHeight;
 
@@ -18,30 +18,38 @@ async function enviar() {
     chat.innerHTML += `<div id="${loadId}" class='msg-bot loading'>Eccoia está pensando...</div>`;
     chat.scrollTop = chat.scrollHeight;
 
-    const req = await fetch(
-        "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + API_KEY,
-        {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                contents: [
-                    {
-                        parts: [{ text: pergunta }]
-                    }
-                ]
-            })
-        }
-    );
+    try {
+        const req = await fetch(
+            "https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=" + API_KEY,
+            {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    contents: [
+                        {
+                            role: "user",
+                            parts: [{ text: pergunta }]
+                        }
+                    ]
+                })
+            }
+        );
 
-    const data = await req.json();
+        const data = await req.json();
 
-    document.getElementById(loadId).remove();
+        document.getElementById(loadId).remove();
 
-    const resposta =
-        data?.candidates?.[0]?.content?.parts?.[0]?.text ||
-        "⚠️ Erro ao gerar resposta.";
+        let resposta =
+            data?.candidates?.[0]?.content?.parts?.[0]?.text ||
+            "⚠️ Erro ao gerar resposta.";
 
-    chat.innerHTML += `<div class='msg-bot'>${resposta}</div>`;
-    chat.scrollTop = chat.scrollHeight;
+        chat.innerHTML += `<div class='msg-bot'>${resposta}</div>`;
+        chat.scrollTop = chat.scrollHeight;
+
+    } catch (e) {
+        document.getElementById(loadId).remove();
+        chat.innerHTML += `<div class='msg-bot'>⚠️ Erro ao conectar com a API.</div>`;
+        console.error(e);
+    }
 }
 </script>
