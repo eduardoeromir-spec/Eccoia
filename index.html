@@ -145,10 +145,7 @@
 
     <div class="inputs">
 
-        <!-- Campo para colar chave API -->
-        <input id="apikey" placeholder="Cole sua API KEY do Gemini aqui">
-
-        <input id="pergunta" placeholder="Digite sua mensagem..." 
+        <input id="pergunta" placeholder="Digite sua mensagem..."
                onkeypress="if(event.key==='Enter'){enviar()}">
 
         <button onclick="enviar()">Enviar</button>
@@ -157,14 +154,10 @@
 </div>
 
 <script>
+const API_KEY = "AIzaSyAIf-EvxFBc2IPoWDKUvgX8d3umUKOq_c4"; // SUA CHAVE FIXA
+
 async function enviar() {
     const pergunta = document.getElementById("pergunta").value;
-    const API_KEY = document.getElementById("apikey").value;
-
-    if (!API_KEY.trim()) {
-        alert("Cole sua API KEY antes de usar a IA!");
-        return;
-    }
 
     if (!pergunta.trim()) return;
 
@@ -196,7 +189,7 @@ async function enviar() {
 
     const resposta =
         data?.candidates?.[0]?.content?.parts?.[0]?.text ||
-        "Erro ao gerar resposta.";
+        "⚠ Erro ao gerar resposta.";
 
     chat.innerHTML += `<div class='msg-bot'>${resposta}</div>`;
     chat.scrollTop = chat.scrollHeight;
