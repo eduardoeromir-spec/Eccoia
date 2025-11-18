@@ -1,317 +1,206 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Eccoia — IA (Glassmorphism)</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eccoia • IA Minimalista Premium</title>
 
 <style>
-  :root{
-    --glass-bg: rgba(255,255,255,0.08);
-    --glass-border: rgba(255,255,255,0.12);
-    --accent1: #7c4dff; /* roxo */
-    --accent2: #00e6ff; /* ciano */
-    --accent-glow: linear-gradient(135deg,var(--accent1),var(--accent2));
-    --text: #eaeaea;
-    --muted: #bfc7d1;
-  }
-  html,body{height:100%;margin:0;font-family:"Inter",system-ui,Arial,sans-serif;background:#07060a;color:var(--text);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
-  /* floating background blobs */
-  .bg {
-    position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;
-  }
-  .blob{
-    position:absolute;border-radius:50%;
-    filter:blur(60px) saturate(120%);
-    opacity:0.16; transform:translate3d(0,0,0);
-    animation:float 18s ease-in-out infinite;
-  }
-  .b1{width:520px;height:520px;left:-15%;top:-10%;background:linear-gradient(135deg,#3b0cff,#00c8ff);}
-  .b2{width:360px;height:360px;right:-10%;bottom:-5%;background:linear-gradient(135deg,#ff4da6,#7c4dff);animation-duration:22s;opacity:0.12;}
-  .b3{width:260px;height:260px;left:20%;bottom:10%;background:linear-gradient(135deg,#00e6ff,#a48bff);animation-duration:25s;opacity:0.08;}
-  @keyframes float{0%{transform:translateY(0) translateX(0)}50%{transform:translateY(-30px) translateX(20px)}100%{transform:translateY(0) translateX(0)}}
+    body {
+        margin: 0;
+        padding: 0;
+        background: #f1f1f1;
+        font-family: "Inter", Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+    }
 
-  /* main layout */
-  .wrap{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:32px;}
-  .card{
-    width:100%;max-width:880px;border-radius:20px;padding:26px;backdrop-filter: blur(10px) saturate(120%);
-    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-    border:1px solid var(--glass-border);box-shadow: 0 8px 30px rgba(2,3,8,0.7);
-    display:grid;grid-template-columns: 380px 1fr;gap:20px;overflow:hidden;
-  }
+    .phone {
+        width: 380px;
+        height: 90vh;
+        background: white;
+        border-radius: 25px;
+        box-shadow: 0 0 40px rgba(0,0,0,0.12);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        animation: float 3.5s ease-in-out infinite;
+    }
 
-  /* left panel (info) */
-  .left{
-    padding:18px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);
-    display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
-  }
-  .avatar{
-    width:110px;height:110px;border-radius:22px;background:var(--accent-glow);padding:6px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 30px rgba(92,71,255,0.18), inset 0 -6px 30px rgba(0,230,255,0.07);
-  }
-  .avatar-inner{
-    width:100%;height:100%;border-radius:16px;background:linear-gradient(135deg, rgba(0,0,0,0.25), rgba(255,255,255,0.02));display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:28px;backdrop-filter: blur(4px);
-  }
-  .title{margin-top:14px;font-weight:700;font-size:20px;text-align:center}
-  .subtitle{color:var(--muted);font-size:13px;margin-top:6px;text-align:center;padding:0 10px}
-  .controls{margin-top:18px;width:100%;display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
-  .chip{padding:9px 12px;border-radius:12px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);font-size:13px;color:var(--muted)}
-  .small{font-size:12px;color:var(--muted);margin-top:16px;text-align:center;padding:0 6px}
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-8px); }
+        100% { transform: translateY(0px); }
+    }
 
-  /* right panel (chat) */
-  .right{display:flex;flex-direction:column;height:560px;}
-  .header{
-    display:flex;align-items:center;justify-content:space-between;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.02);
-  }
-  .header h3{margin:0;font-size:18px;font-weight:700}
-  .status{font-size:13px;color:var(--muted)}
-  /* chat window */
-  #chat {
-    margin-top:14px;background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
-    border-radius:12px;padding:18px;flex:1;overflow:auto;border:1px solid rgba(255,255,255,0.02);
-    scroll-behavior:smooth;
-  }
+    .header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 18px;
+        border-bottom: 1px solid #ddd;
+    }
 
-  /* message style */
-  .message{max-width:78%;margin:12px 0;display:block;opacity:0;transform:translateY(8px);animation:fadeInUp .42s forwards;position:relative}
-  .from-user{margin-left:auto;text-align:right}
-  .bubble{
-    display:inline-block;padding:12px 14px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border:1px solid rgba(255,255,255,0.03);color:var(--text);box-shadow: 0 6px 18px rgba(0,0,0,0.45);
-    font-size:15px;line-height:1.4;
-  }
-  .bubble.user{background: linear-gradient(90deg,#08070a,#111216);border:1px solid rgba(255,255,255,0.02)}
-  .bubble.bot{background:linear-gradient(90deg, rgba(255,255,255,0.025), rgba(255,255,255,0.01));}
-  .time{font-size:11px;color:var(--muted);margin-top:6px}
+    .avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: url('https://i.imgur.com/5ZQ0N3G.png') center/cover;
+    }
 
-  @keyframes fadeInUp{
-    to{opacity:1;transform:none}
-  }
+    .title {
+        font-size: 20px;
+        font-weight: 600;
+    }
 
-  /* typing indicator */
-  .typing{display:inline-block;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03)}
-  .dots span{display:inline-block;width:6px;height:6px;margin:0 3px;background:var(--muted);border-radius:50%;animation:blink 1s infinite;}
-  .dots span:nth-child(2){animation-delay:.15s}
-  .dots span:nth-child(3){animation-delay:.3s}
-  @keyframes blink{50%{opacity:.25;transform:translateY(-2px)}100%{opacity:1;transform:none}}
+    #chat-box {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+        scroll-behavior: smooth;
+    }
 
-  /* input area */
-  .inputbar{display:flex;gap:12px;align-items:center;padding-top:12px}
-  .field{
-    flex:1;display:flex;gap:10px;align-items:center;background:rgba(255,255,255,0.02);padding:10px;border-radius:12px;border:1px solid rgba(255,255,255,0.02)
-  }
-  .field input{flex:1;background:transparent;border:0;outline:none;color:var(--text);font-size:15px}
-  /* animated send button */
-  .send{
-    position:relative;min-width:64px;padding:10px 16px;border-radius:12px;border:0;background:var(--accent1);background-image:linear-gradient(90deg,var(--accent1),var(--accent2));color:#060607;font-weight:700;cursor:pointer;overflow:hidden;
-    box-shadow:0 8px 30px rgba(124,77,255,0.14);
-    transition:transform .15s ease,box-shadow .15s ease;
-  }
-  .send:active{transform:translateY(2px)}
-  .send .shine{position:absolute;left:-40%;top:0;height:100%;width:120%;background:linear-gradient(90deg, rgba(255,255,255,0.08), rgba(255,255,255,0.0));transform:skewX(-20deg);opacity:0;transition:all .8s}
-  .send:hover .shine{left:120%;opacity:1;transition:all .8s}
-  .send svg{vertical-align:middle}
+    .msg-user, .msg-bot {
+        margin: 10px 0;
+        opacity: 0;
+        animation: fadeIn .5s forwards;
+        max-width: 85%;
+    }
 
-  /* responsive */
-  @media(max-width:900px){
-    .card{grid-template-columns:1fr;max-width:700px;padding:18px}
-    .left{order:2;flex-direction:row;gap:12px;padding:12px}
-    .right{order:1;height:640px}
-    #chat{height:420px}
-  }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(5px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .msg-user {
+        text-align: right;
+        margin-left: auto;
+        background: #222;
+        color: white;
+        padding: 10px 14px;
+        border-radius: 12px 12px 0 12px;
+    }
+
+    .msg-bot {
+        text-align: left;
+        margin-right: auto;
+        background: #eaeaea;
+        color: #222;
+        padding: 10px 14px;
+        border-radius: 12px 12px 12px 0;
+    }
+
+    .inputs {
+        padding: 18px;
+        border-top: 1px solid #ddd;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    input {
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        font-size: 15px;
+    }
+
+    button {
+        padding: 12px;
+        background: #222;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: .3s;
+        transform: translateY(0);
+    }
+
+    button:hover {
+        background: #000;
+        transform: translateY(-2px);
+    }
+
+    .loading {
+        font-style: italic;
+        color: #888;
+        padding: 10px;
+    }
 </style>
 </head>
 <body>
-  <div class="bg" aria-hidden="true">
-    <div class="blob b1"></div>
-    <div class="blob b2"></div>
-    <div class="blob b3"></div>
-  </div>
 
-  <div class="wrap">
-    <main class="card" role="main" aria-label="Eccoia chat">
-      <section class="left" aria-hidden="false">
-        <div class="avatar" aria-hidden="true">
-          <div class="avatar-inner">E</div>
-        </div>
+<div class="phone">
+
+    <div class="header">
+        <div class="avatar"></div>
         <div class="title">Eccoia</div>
-        <div class="subtitle">Sua assistente IA — Glass edition</div>
-        <div class="controls">
-          <div class="chip">Resposta em tempo real</div>
-          <div class="chip">Minimal & Futurista</div>
-        </div>
-        <div class="small">Toque em "Enviar" ou pressione Enter — suas conversas aparecem à direita.</div>
-      </section>
+    </div>
 
-      <section class="right" aria-live="polite">
-        <header class="header">
-          <h3>Eccoia</h3>
-          <div class="status" id="status">Conectada</div>
-        </header>
+    <div id="chat-box"></div>
 
-        <div id="chat" role="log" aria-live="polite" aria-atomic="false">
-          <!-- mensagens serão injetadas aqui -->
-        </div>
+    <div class="inputs">
 
-        <div class="inputbar" aria-hidden="false">
-          <div class="field" role="form">
-            <input id="inputMessage" type="text" placeholder="Digite sua mensagem..." aria-label="Digite sua mensagem" />
-          </div>
+        <!-- Campo para colar chave API -->
+        <input id="apikey" placeholder="Cole sua API KEY do Gemini aqui">
 
-          <button class="send" id="sendBtn" title="Enviar mensagem">
-            <span class="shine" aria-hidden="true"></span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M2 21l21-9L2 3v7l15 2-15 2v7z" fill="white"/>
-            </svg>
-          </button>
-        </div>
-      </section>
-    </main>
-  </div>
+        <input id="pergunta" placeholder="Digite sua mensagem..." 
+               onkeypress="if(event.key==='Enter'){enviar()}">
+
+        <button onclick="enviar()">Enviar</button>
+    </div>
+
+</div>
 
 <script>
-/*
-  Instruções:
-  1) Substitua API_KEY na variável abaixo pela sua chave (se for testar direto do browser).
-  2) Aviso: colocar chave em frontend é **inseguro** — prefira um servidor/proxy.
-  3) Se usar Gemini (Google), provavelmente precisa usar um backend que faça a chamada.
-*/
-const API_KEY = "AIzaSyAIf-EvxFBc2IPoWDKUvgX8d3umUKOq_c4"; // <-- substitua aqui (ou configure proxy no servidor)
-const MODEL_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=" + API_KEY;
-// OBS: se for outro provedor, troque a URL e o corpo da requisição conforme a API.
+async function enviar() {
+    const pergunta = document.getElementById("pergunta").value;
+    const API_KEY = document.getElementById("apikey").value;
 
-// helpers
-const chat = document.getElementById("chat");
-const input = document.getElementById("inputMessage");
-const sendBtn = document.getElementById("sendBtn");
-const status = document.getElementById("status");
-
-function addMessage(text, who='bot'){
-  const wrap = document.createElement('div');
-  wrap.className = 'message ' + (who==='user' ? 'from-user' : '');
-  // timing: small random delay for natural feel (but keep small)
-  wrap.style.animationDelay = (Math.random()*0.08) + 's';
-  const bubble = document.createElement('div');
-  bubble.className = 'bubble ' + (who==='user' ? 'user' : 'bot');
-  bubble.innerHTML = text.replace(/\n/g,'<br>');
-  wrap.appendChild(bubble);
-  chat.appendChild(wrap);
-  // keep scroll smooth
-  chat.scrollTo({ top: chat.scrollHeight, behavior: 'smooth' });
-}
-
-function showTyping(){
-  const id = 'typing-'+Date.now();
-  const el = document.createElement('div');
-  el.id = id;
-  el.className = 'message';
-  el.style.animationDelay = '0s';
-  const bubble = document.createElement('div');
-  bubble.className = 'typing';
-  bubble.innerHTML = `<span class="dots"><span></span><span></span><span></span></span>`;
-  el.appendChild(bubble);
-  chat.appendChild(el);
-  chat.scrollTo({ top: chat.scrollHeight, behavior: 'smooth' });
-  return id;
-}
-
-function removeTyping(id){
-  const el = document.getElementById(id);
-  if(el) el.remove();
-}
-
-// basic safe text escape (we do minimal escaping because we want line breaks)
-function escapeHtml(s){
-  return s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
-}
-
-// send action
-async function enviar(){
-  const text = input.value.trim();
-  if(!text) return;
-  addMessage(escapeHtml(text), 'user');
-  input.value = '';
-  input.focus();
-
-  // typing placeholder
-  const typingId = showTyping();
-
-  // set status
-  status.textContent = "Gerando...";
-  try{
-    // Example request for Gemini-like endpoint. You must adapt if using different provider.
-    const body = {
-      // This minimal body may need tailoring for your model/API version
-      "input": text
-    };
-
-    // If you have a server, call your server endpoint here instead of calling cloud directly.
-    // ---- Client-side example (browser) ----
-    // Many cloud LLMs DO NOT allow direct calls from browser due to CORS + key security.
-    // This fetch may fail if the provider rejects browser requests. In that case, use a server proxy.
-
-    const res = await fetch(MODEL_ENDPOINT, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        // Example Gemini style body; providers differ hugely.
-        "temperature": 0.2,
-        "candidateCount": 1,
-        "contents": [{ "content": text }]
-      })
-    });
-
-    let json = null;
-    try { json = await res.json(); } catch(e){ json = null; }
-
-    removeTyping(typingId);
-
-    // Try to parse answer in various common shapes
-    let answer = null;
-    if(json){
-      // Gemini-like responses may have candidates -> content -> parts
-      if(json?.candidates?.[0]?.content?.[0]?.text) answer = json.candidates[0].content[0].text;
-      else if(json?.candidates?.[0]?.content?.parts?.[0]?.text) answer = json.candidates[0].content.parts[0].text;
-      else if(json?.candidates?.[0]?.content) answer = JSON.stringify(json.candidates[0].content);
-      else if(json?.output?.[0]?.content?.[0]?.text) answer = json.output[0].content[0].text;
-      else if(json?.text) answer = json.text;
-      else answer = JSON.stringify(json).slice(0,1500);
-    } else {
-      answer = "Resposta indisponível (erro no parse).";
+    if (!API_KEY.trim()) {
+        alert("Cole sua API KEY antes de usar a IA!");
+        return;
     }
 
-    addMessage(escapeHtml(answer || "Sem resposta."), 'bot');
-    status.textContent = "Conectada";
-  } catch(err){
-    removeTyping(typingId);
-    console.error(err);
-    addMessage("Desculpe — ocorreu um erro ao gerar a resposta. Verifique sua chave/API ou use um proxy.", 'bot');
-    status.textContent = "Erro";
-  }
+    if (!pergunta.trim()) return;
+
+    const chat = document.getElementById("chat-box");
+
+    chat.innerHTML += `<div class='msg-user'>${pergunta}</div>`;
+    chat.scrollTop = chat.scrollHeight;
+
+    document.getElementById("pergunta").value = "";
+
+    const loadId = "load" + Math.random();
+    chat.innerHTML += `<div id="${loadId}" class='msg-bot loading'>Eccoia está pensando...</div>`;
+    chat.scrollTop = chat.scrollHeight;
+
+    const req = await fetch(
+        "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=" + API_KEY,
+        {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                contents: [{ parts: [{ text: pergunta }] }]
+            })
+        }
+    );
+
+    const data = await req.json();
+
+    document.getElementById(loadId).remove();
+
+    const resposta =
+        data?.candidates?.[0]?.content?.parts?.[0]?.text ||
+        "Erro ao gerar resposta.";
+
+    chat.innerHTML += `<div class='msg-bot'>${resposta}</div>`;
+    chat.scrollTop = chat.scrollHeight;
 }
-
-// enter to send
-input.addEventListener('keydown', (e) => {
-  if(e.key === 'Enter' && !e.shiftKey){
-    e.preventDefault();
-    enviar();
-  }
-});
-
-// send button ripple + animation feedback
-sendBtn.addEventListener('click', () => {
-  // small click ripple:
-  sendBtn.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(-3px)' }, { transform: 'translateY(0)' }], { duration: 220, easing: 'ease-out' });
-  enviar();
-});
-
-// initial welcome
-document.addEventListener('DOMContentLoaded', () => {
-  addMessage("Olá! Eu sou a Eccoia — em que posso ajudar hoje?", 'bot');
-});
 </script>
 
 </body>
