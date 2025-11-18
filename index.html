@@ -3,106 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eccoia — IA Avançada</title>
+    <title>Eccoia — IA Futurista</title>
 
-    <!-- Estilos básicos -->
     <style>
+        /* ===== FUNDO ANIMADO NEON ===== */
         body {
-            background-color: #112;
-            color: #ffffff;
-            font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0;
+            background: linear-gradient(135deg, #050505, #0A0020, #050505);
+            background-size: 300% 300%;
+            animation: bgAnim 10s infinite alternate;
+            font-family: 'Arial', sans-serif;
+            color: #fff;
         }
 
+        @keyframes bgAnim {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        /* ===== HEADER ===== */
         header {
-            background-color: #111;
-            padding: 20px;
             text-align: center;
-            font-size: 26px;
+            padding: 25px;
+            font-size: 32px;
             font-weight: bold;
-            border-bottom: 1px solid #222;
-  .button {
-    background-color: #007BFF; /* azul */
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 6px;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    display: inline-block;
-    text-decoration: none;
-}
+            color: #00eaff;
+            text-shadow: 0 0 10px #00eaff;
+        }
 
-.button:hover {
-    background-color: #0056b3; /* azul escuro no hover */
-}      }
-
+        /* ===== CONTAINER PRINCIPAL ===== */
         .container {
             max-width: 900px;
             margin: auto;
             padding: 20px;
+            text-align: center;
         }
 
         h1 {
-            font-size: 36px;
-            margin-bottom: 10px;
-            text-align: center;
+            font-size: 38px;
+            color: #00eaff;
+            text-shadow: 0 0 12px #00eaff;
         }
 
         p {
             font-size: 18px;
-            line-height: 1.6;
-            text-align: center;
+            opacity: 0.8;
         }
 
+        /* ===== BOTÃO NEON ===== */
         .btn {
-            display: inline-block;
             margin-top: 25px;
-            padding: 12px 22px;
-            background-color: #00c8ff;
-            color: #000;
+            padding: 14px 30px;
+            font-size: 20px;
             font-weight: bold;
-            border-radius: 8px;
-            text-decoration: none;
+            color: #fff;
+            background: transparent;
+            border: 2px solid #00eaff;
+            border-radius: 10px;
+            cursor: pointer;
+            text-shadow: 0 0 10px #00eaff;
             transition: 0.2s;
+            box-shadow: 0 0 12px #00eaff;
         }
 
         .btn:hover {
-            background-color: #0099cc;
+            background: #00eaff;
+            color: #000;
+            box-shadow: 0 0 20px #00eaff;
         }
 
-        footer {
-            text-align: center;
+        /* ===== CHAT ===== */
+        #chatBox {
+            display: none; /* Só aparece depois de clicar Iniciar */
             margin-top: 40px;
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid #00eaff;
+            border-radius: 12px;
             padding: 20px;
-            border-top: 1px solid #222;
-            color: #777;
-            font-size: 14px;
+            box-shadow: 0 0 20px #00eaff80;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .messages {
+            height: 350px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .msg {
+            margin: 12px 0;
+            padding: 12px;
+            max-width: 75%;
+            border-radius: 10px;
+        }
+
+        .user {
+            background: #0084ff;
+            margin-left: auto;
+            text-align: right;
+            box-shadow: 0 0 10px #0084ff;
+        }
+
+        .bot {
+            background: #00eaff33;
+            border: 1px solid #00eaff55;
+            box-shadow: 0 0 10px #00eaff;
+        }
+
+        /* ===== INPUT ===== */
+        .inputArea {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        input {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+            background: #111;
+            color: white;
+            font-size: 16px;
+        }
+
+        .sendBtn {
+            padding: 12px 20px;
+            background: #00eaff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #000;
+            box-shadow: 0 0 10px #00eaff;
+        }
+
+        .sendBtn:hover {
+            background: #00bcd4;
+            box-shadow: 0 0 15px #00eaff;
         }
     </style>
 </head>
 
 <body>
 
-    <header>
-        Eccoia — Inteligência Artificial Moderna
-    </header>
+    <header>Eccoia — Neon Futurista</header>
 
-    <div class="container">
+    <div class="container" id="introSection">
         <h1>Bem-vindo à Eccoia</h1>
-        <p>
-            Uma inteligência artificial avançada, criada para oferecer ajuda rápida, eficiente e moderna.
-            Aqui você poderá acessar interações, atualizações e novidades..
-        </p>
-
-        <a href="#" class="btn">Iniciar</a>
+        <p>Sua inteligência artificial moderna, rápida e futurista. Clique abaixo para começar.</p>
+        <button class="btn" onclick="iniciarChat()">Iniciar</button>
     </div>
 
-    <footer>
-        © 2025 Eccoia — Todos os direitos reservados.
-    </footer>
+    <!-- CHAT -->
+    <div id="chatBox">
+        <h2 style="text-align:center; color:#00eaff; text-shadow:0 0 10px #00eaff;">Eccoia — Chat Ativo</h2>
+
+        <div class="messages" id="messages"></div>
+
+        <div class="inputArea">
+            <input type="text" id="userInput" placeholder="Digite sua mensagem...">
+            <button class="sendBtn" onclick="sendMessage()">Enviar</button>
+        </div>
+    </div>
+
+    <script>
+        function iniciarChat() {
+            document.getElementById("introSection").style.display = "none";
+            document.getElementById("chatBox").style.display = "block";
+
+            addBot("Olá! Eu sou a Eccoia. Como posso te ajudar hoje?");
+        }
+
+        function addUser(text) {
+            let box = document.getElementById("messages");
+            let div = document.createElement("div");
+            div.className = "msg user";
+            div.innerText = text;
+            box.appendChild(div);
+            box.scrollTop = box.scrollHeight;
+        }
+
+        function addBot(text) {
+            let box = document.getElementById("messages");
+            let div = document.createElement("div");
+            div.className = "msg bot";
+            div.innerText = text;
+            box.appendChild(div);
+            box.scrollTop = box.scrollHeight;
+        }
+
+        function sendMessage() {
+            let input = document.getElementById("userInput");
+            let text = input.value.trim();
+
+            if (text === "") return;
+
+            addUser(text);
+            input.value = "";
+
+            setTimeout(() => {
+                addBot(respostaFake());
+            }, 700);
+        }
+
+        /* Respostas falsas (DEMO) */
+        function respostaFake() {
+            const respostas = [
+                "Interessante! Conte-me mais.",
+                "Entendi! Quer que eu te explique algo sobre isso?",
+                "Posso te ajudar com informações ou explicações.",
+                "Legal! Estou aqui para conversar sempre que quiser.",
+                "Ótima pergunta! Você pode detalhar mais?"
+            ];
+            return respostas[Math.floor(Math.random() * respostas.length)];
+        }
+    </script>
 
 </body>
 </html>
