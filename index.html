@@ -1,184 +1,34 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Eccoia • IA Minimalista Premium</title>
-
-<style>
-    body {
-        margin: 0;
-        padding: 0;
-        background: #f1f1f1;
-        font-family: "Inter", Arial, sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        overflow: hidden;
-    }
-
-    .phone {
-        width: 380px;
-        height: 90vh;
-        background: white;
-        border-radius: 25px;
-        box-shadow: 0 0 40px rgba(0,0,0,0.12);
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-        animation: float 3.5s ease-in-out infinite;
-    }
-
-    @keyframes float {
-        0% { transform: translateY(0px); }
-        50% { transform: translateY(-8px); }
-        100% { transform: translateY(0px); }
-    }
-
-    .header {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 18px;
-        border-bottom: 1px solid #ddd;
-    }
-
-    .avatar {
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        background: url('https://i.imgur.com/5ZQ0N3G.png') center/cover;
-    }
-
-    .title {
-        font-size: 20px;
-        font-weight: 600;
-    }
-
-    #chat-box {
-        flex: 1;
-        padding: 20px;
-        overflow-y: auto;
-        scroll-behavior: smooth;
-    }
-
-    .msg-user, .msg-bot {
-        margin: 10px 0;
-        opacity: 0;
-        animation: fadeIn .5s forwards;
-        max-width: 85%;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(5px); }
-        to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .msg-user {
-        text-align: right;
-        margin-left: auto;
-        background: #222;
-        color: white;
-        padding: 10px 14px;
-        border-radius: 12px 12px 0 12px;
-    }
-
-    .msg-bot {
-        text-align: left;
-        margin-right: auto;
-        background: #eaeaea;
-        color: #222;
-        padding: 10px 14px;
-        border-radius: 12px 12px 12px 0;
-    }
-
-    .inputs {
-        padding: 18px;
-        border-top: 1px solid #ddd;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    input {
-        padding: 12px;
-        border-radius: 10px;
-        border: 1px solid #ccc;
-        font-size: 15px;
-    }
-
-    button {
-        padding: 12px;
-        background: #222;
-        color: white;
-        border: none;
-        border-radius: 10px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: .3s;
-        transform: translateY(0);
-    }
-
-    button:hover {
-        background: #000;
-        transform: translateY(-2px);
-    }
-
-    .loading {
-        font-style: italic;
-        color: #888;
-        padding: 10px;
-    }
-</style>
-</head>
-<body>
-
-<div class="phone">
-
-    <div class="header">
-        <div class="avatar"></div>
-        <div class="title">Eccoia</div>
-    </div>
-
-    <div id="chat-box"></div>
-
-    <div class="inputs">
-
-        <input id="pergunta" placeholder="Digite sua mensagem..."
-               onkeypress="if(event.key==='Enter'){enviar()}">
-
-        <button onclick="enviar()">Enviar</button>
-    </div>
-
-</div>
-
 <script>
-const API_KEY = "AIzaSyAIf-EvxFBc2IPoWDKUvgX8d3umUKOq_c4"; // SUA CHAVE FIXA
-
 async function enviar() {
     const pergunta = document.getElementById("pergunta").value;
+    const API_KEY = "AIzaSyAIf-EvxFBc2IPoWDKUvgX8d3umUKOq_c4"; // sua chave
 
     if (!pergunta.trim()) return;
 
     const chat = document.getElementById("chat-box");
 
+    // Mostrar mensagem do usuário
     chat.innerHTML += `<div class='msg-user'>${pergunta}</div>`;
     chat.scrollTop = chat.scrollHeight;
 
     document.getElementById("pergunta").value = "";
 
+    // Mensagem de carregamento
     const loadId = "load" + Math.random();
     chat.innerHTML += `<div id="${loadId}" class='msg-bot loading'>Eccoia está pensando...</div>`;
     chat.scrollTop = chat.scrollHeight;
 
     const req = await fetch(
-        "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=" + API_KEY,
+        "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + API_KEY,
         {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                contents: [{ parts: [{ text: pergunta }] }]
+                contents: [
+                    {
+                        parts: [{ text: pergunta }]
+                    }
+                ]
             })
         }
     );
@@ -189,12 +39,9 @@ async function enviar() {
 
     const resposta =
         data?.candidates?.[0]?.content?.parts?.[0]?.text ||
-        "⚠ Erro ao gerar resposta.";
+        "⚠️ Erro ao gerar resposta.";
 
     chat.innerHTML += `<div class='msg-bot'>${resposta}</div>`;
     chat.scrollTop = chat.scrollHeight;
 }
 </script>
-
-</body>
-</html>
